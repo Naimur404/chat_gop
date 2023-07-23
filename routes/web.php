@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatGptDestryController;
 use App\Http\Controllers\ChatGptIndexController;
 use App\Http\Controllers\ChatGptStoreController;
 use App\Http\Controllers\ProfileController;
@@ -18,16 +19,16 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('chat/{id?}', ChatGptIndexController::class)->name('chat.show');
     Route::post('/chat/{id?}', ChatGptStoreController::class)->name('chat.store');
+    Route::delete('/chat/{chat}', ChatGptDestryController::class)->name('chat.destroy');
 });
 
 require __DIR__.'/auth.php';
